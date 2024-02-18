@@ -3,17 +3,17 @@
 @inject IRepository repository
 @inject NavigationManager navigationManager
 @inject SweetAlertService sweetAlertService
-
+@inject NavigationManager navigationManager
 
 <h3>Editar Ciudad</h3>
 
 @if (city is null)
 {
-    <div class="spinner"/>
+        <p>Cargando...</p>
 }
 else
 {
-    <CityForm @ref="cityForm" City="city" OnValidSubmit="EditAsync" ReturnAction="Return" />
+        <CityForm @ref="cityForm" City="city" OnValidSubmit="EditAsync" ReturnAction="Return" />
 }
 
 @code {

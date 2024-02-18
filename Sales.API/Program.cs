@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Sales.API.Data;
+using Sales.API.Services;
 using System.Text.Json.Serialization;
 using System.Threading.RateLimiting;
 
@@ -15,6 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=ConnectionSA"));
 
 builder.Services.AddTransient<SeedDb>();
+builder.Services.AddScoped<IApiService, ApiService>();
 
 
 var app = builder.Build();

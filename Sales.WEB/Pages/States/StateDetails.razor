@@ -1,9 +1,7 @@
 ﻿@page "/states/details/{StateId:int}"
-
 @inject IRepository repository
 @inject NavigationManager navigationManager
 @inject SweetAlertService sweetAlertService
-
 
 @if (state is null)
 {
@@ -13,28 +11,26 @@ else
 {
     <h3>@state.Name</h3>
     <div class="mb-2">
-        <a class="btn btn-primary" href="/cities/create/@StateId">Nueva Ciudad</a>
+        <a class="btn btn-primary" href="/cities/create/@state.Id">Nueva Ciuadad</a>
         <a class="btn btn-success" href="/countries/details/@state.CountryId">Regresar</a>
     </div>
 
-    <GenericList MyList="state.Cities!.ToList()">
+    <GenericList MyList="cities">
         <Body>
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Ciudades</th>
-                        <th></th>
+                        <th>Ciudad</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var city in state.Cities!.ToList())
+                    @foreach (var city in cities!)
                     {
                         <tr>
                             <td>
                                 @city.Name
                             </td>
-                            
                             <td>
                                 <a class="btn btn-warning" href="/cities/edit/@city.Id">Editar</a>
                                 <button class="btn btn-danger" @onclick=@(() => DeleteAsync(city.Id))>Borrar</button>
@@ -45,26 +41,19 @@ else
             </table>
         </Body>
     </GenericList>
-
 }
 
-
 @code {
-
     private State? state;
-
-
+    private List<City>? cities;
 
     [Parameter]
     public int StateId { get; set; }
-
 
     protected override async Task OnInitializedAsync()
     {
         await LoadAsync();
     }
-
-
 
     private async Task LoadAsync()
     {
@@ -83,9 +72,8 @@ else
         }
 
         state = responseHttp.Response;
+        cities = state!.Cities!.ToList();
     }
-
-
 
     private async Task DeleteAsync(int cityId)
     {
@@ -118,7 +106,4 @@ else
 
         await LoadAsync();
     }
-
-
-
 }
